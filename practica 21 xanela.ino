@@ -22,38 +22,35 @@ DE MANERA SIMPLIFICADA. EL PULSADOR ACCIONA EL MOTOR DE SUBIDA AL SER PRESIONADO
 //int motor abajo = 12;
  
 	int estado = 1; // Bool (estado booliano 0 y 1)practica anterior ----------INT en este caso puede tomar valores 0, 1, 2.
-	int contador = 100; // contador para el nº de impulsos del pulsador para conectar el motor.
+	int contador = 0; // contador para el nº de impulsos del pulsador para conectar el motor.
 
 
 
 
-	void setup() {
+void setup() {
  		 pinMode(motorArriba,OUTPUT);
  		 pinMode(motorAbajo,OUTPUT);
  		 pinMode(pulsador,INPUT);
   
  		 Serial.begin(9600);
-  	   	 int estado;
-  		 Serial.println(estado);
- 		 
-  
 }
 
 void loop() {
   //lectura del pulsador
-  	if(digitalRead(pulsador)) { 			 //si esta pulsado......
-    	estado = (estado + 1) % 4; 			//ASIGNACION //cambiame el estado, activa/ desactiva. / ACTUALIZACION DEL ESTADO PARA ESTAR ENTRE 0 Y 3
-  //    if (estado > 2) {
-     //   estado = 0;
-   	   contador = 100;
-    while(digitalRead(pulsador)) {			 //lee que esta el pulsador pulsado
-        delay(20); 							// espera 20milisegundos mientras esta pulsado y vuelve a empezar el bucle(autolectura) 
-    
-  }
+  	if(digitalRead(pulsador)) { 
+     //si esta pulsado......
+     estado = (estado + 1) % 4; 			//ASIGNACION //cambiame el estado, activa/ desactiva. / ACTUALIZACION DEL ESTADO PARA ESTAR ENTRE 0 Y 3
+   	 contador = 100;
+      while(digitalRead(pulsador)) { //lee que esta el pulsador pulsado
+        delay(20);      // espera 20milisegundos mientras esta pulsado y vuelve a empezar el bucle(autolectura) 
+      }
+    }
+
   //fin lectura del pulsador
   
-  Serial.print("valor del contador: ");
-  Serial.println(contador);
+  Serial.print(" valor del contador: ");
+  Serial.print(contador);
+  Serial.print(" | estado: ");
   Serial.println(estado);
   
   //accionamiento de los motores
@@ -65,11 +62,11 @@ void loop() {
       delay (70);
       contador--;   //restamos 1 a la variable ///contador///////
     }
-  else if(estado==2)  {
+  else if(estado == 2)  {
      	 digitalWrite(motorAbajo, HIGH);
      	 digitalWrite(motorArriba, LOW);
      	 delay(70);
-    	  contador--;
+    	 contador--;
     }
     else {
      	  digitalWrite(motorAbajo, LOW);
@@ -77,15 +74,14 @@ void loop() {
     	  delay(70);
 		  contador--;
     }
-  } 
+  }
   else{			// SI NO ESTA EL MOTOR ACCIONADORA . LEE EL BOTON 10 VECES
     	digitalWrite(motorAbajo, LOW);
     	digitalWrite(motorArriba, LOW);  
-    	delay(70);
-    	contador--;
+    	delay(10); 
+  }
   }
       //FIN DE ACCIONAMIENTO DE MOTORES
- 
-delay(80);
-}
-} 
+     //delay(80);
+
+  
