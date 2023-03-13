@@ -6,75 +6,73 @@
     Data: febrero del 2023
 */
 
-#define ledB 2
-#define ledG 12
-#define ledR 13
-#define Trigger 6
-#define Echo 5
-#define zumbador 8
-#define servomotor 10
+#include <Servo.h>
 
-//int melody [] = {
-//};
-//int durations [] = {
-//};
+//Pin de control do servo
+#define CTRL 9
 
-void setup () {
+//Declaramos o obxecto motor
+//da clase Servo
+Servo motor;
+int veloc = 20;
+
+String orde ="";
+int posicion = 0;
+
+void setup() {
+  motor.attach(CTRL);
   Serial.begin(9600);
-  pinMode(ledG, OUTPUT);
-  pinMode(ledB, OUTPUT);
-  pinMode(ledR, OUTPUT);
-  pinMode(Trigger, OUTPUT);
-  pinMode(Echo, INPUT);
-  digitalWrite(Trigger, LOW); 
-  pinMode(zumbador, OUTPUT);
-  pinMode(servomotor, OUTPUT);
 }
-
 
 void loop() {
-  
-  long t; 
-  long d;
-  
-  digitalWrite(Trigger, HIGH);
-  delay(10);
-  digitalWrite(Trigger, LOW);
-  
-  t = pulseIn(Echo, HIGH);
-  d = t/59;
-  
-  
-  if (d<50) {
-    digitalWrite(ledR, HIGH);
-    digitalWrite(ledG, LOW);
-    digitalWrite(ledB, LOW);
-    digitalWrite(zumbador, HIGH);
-    digitalWrite(servomotor, LOW);
-    
+  //Comprobamos se hai orde no teclado
+  if(Serial.available()) {
+    orde = Serial.readStringUntil('\n');
+    orde.toLowerCase();
+    if(orde.equals("esquerda")) posicion = 180;
+    else if(orde.equals("dereita")) posicion = 0;
+    else if(orde.equals("centro")) posicion = 90;
+    else {
+      int tmp = orde.toInt();
+      if(tmp >= 0 && tmp <= 180) posicion = tmp;
+      else posicion = 0;      
+    }
   }
-  else if (d<150) {
-    digitalWrite(ledR, LOW);
-    digitalWrite(ledG, HIGH);
-    digitalWrite(ledB, LOW);
-    digitalWrite(servomotor, HIGH);
-    digitalWrite(zumbador, HIGH);
-    delay(100);
-    digitalWrite(zumbador, LOW);
-    delay(100);
-  }
+  motor.write(posicion);
+  delay(veloc);
+}
+#include <Servo.h>
 
-  else if (d<300) {
-    digitalWrite(ledR, LOW);
-    digitalWrite(ledG, LOW);
-    digitalWrite(ledB, HIGH);
-    digitalWrite(zumbador, LOW);
-    digitalWrite(servomotor, LOW);
-  }
-  
-  Serial.print("Distancia: ");
-  Serial.print(d);
-  Serial.println();
-  delay(100);
+//Pin de control do servo
+#define CTRL 9
+
+//Declaramos o obxecto motor
+//da clase Servo
+Servo motor;
+int veloc = 20;
+
+String orde ="";
+int posicion = 0;
+
+void setup() {
+  motor.attach(CTRL);
+  Serial.begin(9600);
 }
 
+void loop() {
+  //Comprobamos se hai orde no teclado
+  if(Serial.available()) {
+    orde = Serial.readStringUntil('\n');
+    orde.toLowerCase();
+    if(orde.equals("esquerda")) posicion = 180;
+    else if(orde.equals("dereita")) posicion = 0;
+    else if(orde.equals("centro")) posicion = 90;
+    else {
+      int tmp = orde.toInt();
+      if(tmp >= 0 && tmp <= 180) posicion = tmp;
+      else posicion = 0;      
+    }
+  }
+  motor.write(posicion);
+  delay(veloc);
+}
