@@ -23,36 +23,57 @@ Data: 15703/2023
 
 #include <Servo.h>
 
-//Pin de control do servo
+//Pin de control del servomotor
 #define CTRL 3
 
-//Declaramos o obxecto motor
-//da clase Servo
-Servo motor;
-int veloc = 20;
+//Pin de lectura del potenciometro
+#define POT A5	
 
-String orde ="";
-int posicion = 0;
+
+Servo motor;					//Declaramos servomotor variables
+int angulo,grados = 10;
+int veloc = 3000; 			
+float voltaje=0;
+String orde = "";
 
 void setup() {
   motor.attach(CTRL);
   Serial.begin(9600);
 }
 
-void loop() {
-  //Comprobamos se hai orde no teclado
-  if(Serial.available()) {
-    orde = Serial.readStringUntil('\n');
-    orde.toLowerCase();
-    if(orde.equals("esquerda")) posicion = 180;
-    else if(orde.equals("dereita")) posicion = 0;
-    else if(orde.equals("centro")) posicion = 90;
-    else {
-      int tmp = orde.toInt();
-      if(tmp >= 0 && tmp <= 180) posicion = tmp;
-      else posicion = 0;      
-    }
-  }
-  motor.write(posicion);
-  delay(veloc);
+void loop(){
+
+if(Serial.available()){
+  orde = Serial.readStringUntil('\n');                    
+  if(orde.equals("esquerda")){angulo = 180; }              
+  else if(orde.equals("Desquerda")){angulo = 135;}  
+  else if(orde.equals("centro")){angulo = 90;}             
+  else if(orde.equals("Ddereita")){angulo = 45;}
+  else if(orde.equals("dereita")){angulo = 0;}
+  else{
+  int temp = orde.toInt();
+  if(temp >= 0 && temp <= 180) angulo = temp;
+    else angulo = 180;  
+    
+  } 
 }
+  else{
+    angulo = analogRead(POT);
+    angulo = map(angulo, 0, 1023, 0, 180); 				//lee potenciometro
+  }
+    
+  
+  motor.write(angulo);
+  delay(veloc);											//Actualiza el servomotor
+  Serial.println(angulo);	
+  
+
+  Serial.print("  V: ");
+  Serial.print(voltaje);
+  Serial.print("  grados: ");
+  Serial.println(grados);
+  delay(100);
+}
+
+
+
