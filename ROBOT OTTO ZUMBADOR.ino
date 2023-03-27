@@ -1,5 +1,4 @@
 /* Programa que imita o comportamento dun robot Otto simplificado.
-
 As conexións aos servos son as que se indican a seguir.
          --------------- 
         |     O   O     |
@@ -13,10 +12,8 @@ FR 5==>   -----   ------  <== FL 4
          
 O zumbador vai conectado no pin 13 e o sensor de distancia HC-SR04 
 nos pins 9 (echo) e 8 (trigger).
-
 A función loop() vai facendo chamadas a funcións definidas aparte. NON inclúe máis
 código que chamdas a función externas.
-
 Autor: DAVID ANDRES OTERO ELIA 
 Data: 25 Marzo de 2023
 */
@@ -42,6 +39,12 @@ Data: 25 Marzo de 2023
 #define FL       4  // Pé esquerdo (Left Foot)
 #define LL       2  // Perna esquerda (Left Leg)
 
+float distancia = 0;
+float tiempo = 0;
+long t; 
+long d;
+
+   
 Servo peDer, pernaDer, peEsq, pernaEsp;  
 
 void setup() {
@@ -72,57 +75,37 @@ bool demasiadoProximo() {
 // Función que calcula a distancia ao obxecto en cm
 // Incúe unha espera de 50 ms
 float distanciaObxecto() {
-  long t; 
-  long d;
-  
-  
-  digitalWrite(TRIGGER, HIGH);
-  delay(50);
-  digitalWrite(TRIGGER, LOW);
+  	long t; 
+    long d;
+	 digitalWrite(TRIGGER, LOW);
+     delay(2);
+     digitalWrite(TRIGGER, HIGH);
+     delay(10);
+     digitalWrite(TRIGGER, LOW);
+  	 tiempo = pulseIn(ECHO, HIGH);
+     
   
   t = pulseIn(ECHO, HIGH);
   d = t/59;
-  
-  Serial.print("Distancia: ");
-  Serial.print(d);
-  Serial.println();
-  delay(100);
+  	 
+     return distancia;
+     
 }
 
 // Función que fai zumbar o zumbador durante 200 ms
 void zumbar() {
-  long t; 
-  long d;
   
-  
-  digitalWrite(TRIGGER, HIGH);
-  delay(50);
-  digitalWrite(TRIGGER, LOW);
-  
-  t = pulseIn(ECHO, HIGH);
-  d = t/59;
-  
-  if (d<12) {
     digitalWrite(BUZZER, HIGH);
-}
+	delay(20);
+     Serial.println("Distancia: ");
+  	 Serial.print(d);
+     
+     delay(100);
 }
 // Función que apaga o zumbador durante 200 ms
 void nonZumbar() {
-   long t; 
-   long d;
-  
-  
-  digitalWrite(TRIGGER, HIGH);
-  delay(50);
-  digitalWrite(TRIGGER, LOW);
-  
-  t = pulseIn(ECHO, HIGH);
-  d = t/59;
-  
-  if (d<12) {
-    digitalWrite(BUZZER, HIGH);
-}
-  else if (d>12) {
+   
     digitalWrite(BUZZER, LOW);
+    delay(20);
 }
-}
+  
