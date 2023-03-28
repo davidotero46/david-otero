@@ -1,5 +1,6 @@
 /* Programa que imita o comportamento dun robot Otto simplificado.
-As conexións aos servos son as que se indican a seguir.
+
+As conexiÃ³ns aos servos son as que se indican a seguir.
          --------------- 
         |     O   O     |
         |---------------|
@@ -12,16 +13,18 @@ FR 5==>   -----   ------  <== FL 4
          
 O zumbador vai conectado no pin 13 e o sensor de distancia HC-SR04 
 nos pins 9 (echo) e 8 (trigger).
-A función loop() vai facendo chamadas a funcións definidas aparte. NON inclúe máis
-código que chamdas a función externas.
-Autor: DAVID ANDRES OTERO ELIA 
-Data: 25 Marzo de 2023
+
+A funciÃ³n loop() vai facendo chamadas a funciÃ³ns definidas aparte. NON inclÃºe mÃ¡is
+cÃ³digo que chamdas a funciÃ³n externas.
+
+Autor: VÃ­ctor M. Ãlvarez
+Data: Marzo de 2023
 */
 
-//#include <NewPing.h>  //Pódese empregar opcionalmente, non en TinkerCad 
+//#include <NewPing.h>  //PÃ³dese empregar opcionalmente, non en TinkerCad 
 #include <Servo.h>
 
-// Definicións do sensor HC-SR04
+// DefiniciÃ³ns do sensor HC-SR04
 #define ECHO           9
 #define TRIGGER        8
 #define DIST_MAX       200
@@ -33,18 +36,13 @@ Data: 25 Marzo de 2023
 // Buzzer
 #define BUZZER   13
 
-// Definicións dos servos
-#define FR       5  // Pé dereito (Right Foot)
+// DefiniciÃ³ns dos servos
+#define FR       5  // PÃ© dereito (Right Foot)
 #define LR       3  // Perna dereita (Right Leg)
-#define FL       4  // Pé esquerdo (Left Foot)
+#define FL       4  // PÃ© esquerdo (Left Foot)
 #define LL       2  // Perna esquerda (Left Leg)
-
-float distancia = 0;
-float tiempo = 0;
-long t; 
-long d;
-
-   
+float distancia;
+float tiempo;
 Servo peDer, pernaDer, peEsq, pernaEsp;  
 
 void setup() {
@@ -59,53 +57,60 @@ void setup() {
 }
 
 void loop() {
-  demasiadoProximo();
+  David();
 }
 
-// Funcións externas
 
-// Función que indica se o obxecto supera o 
+bool David()
+{
+ bool objeto;
+  if (distanciaObxecto() < UMBRAL_DIST) 
+  { 
+    zumbar();
+    objeto = true;  
+  }
+  else
+  {
+    nonZumbar();
+    objeto = false;
+   delay(50);
+   Serial.println(objeto);
+   return objeto;
+
+// FunciÃ³ns externas
+
+// FunciÃ³n que indica se o obxecto supera o 
 // umbral (true) ou non (false
-bool demasiadoProximo() {
-  if(distanciaObxecto() < UMBRAL_DIST) zumbar(); 
-  else nonZumbar(); 
-  delay(50);
+ delay(50);
+  }
 }
 
-// Función que calcula a distancia ao obxecto en cm
-// Incúe unha espera de 50 ms
+// FunciÃ³n que calcula a distancia ao obxecto en cm
+// IncÃºe unha espera de 50 ms
 float distanciaObxecto() {
-  	long t; 
-    long d;
-	 digitalWrite(TRIGGER, LOW);
-     delay(2);
-     digitalWrite(TRIGGER, HIGH);
-     delay(10);
-     digitalWrite(TRIGGER, LOW);
-  	 tiempo = pulseIn(ECHO, HIGH);
-     
+  digitalWrite(TRIGGER, HIGH);
+  delayMicroseconds(10);
+  digitalWrite (TRIGGER,LOW);
+  tiempo = pulseIn(ECHO, HIGH);
+  distancia = tiempo/59;
+  Serial.print ("Distancia ");
+  Serial.print(distancia);
+  Serial.println("cm ");
+   return (distancia);
+
   
-  t = pulseIn(ECHO, HIGH);
-  d = t/59;
-  	 
-     return distancia;
-     
 }
 
-// Función que fai zumbar o zumbador durante 200 ms
+// FunciÃ³n que fai zumbar o zumbador durante 200 ms
 void zumbar() {
-  
     digitalWrite(BUZZER, HIGH);
 	delay(20);
-     Serial.println("Distancia: ");
-  	 Serial.print(d);
      
-     delay(100);
 }
-// Función que apaga o zumbador durante 200 ms
+
+// FunciÃ³n que apaga o zumbador durante 200 ms
 void nonZumbar() {
-   
     digitalWrite(BUZZER, LOW);
-    delay(20);
+	delay(20);
+     
 }
-  
