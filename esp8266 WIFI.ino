@@ -1,3 +1,35 @@
+/*26. Conectar esp8266 a unha WiFi móbil propia
+
+Práctica 26
+
+Conectar esp8266 a unha WiFi móbil propia.
+
+Obxectivos:
+
+    Programar esp8266 con C++ de Arduíno
+
+    Identificar os parámetro necesarios para acceder a unha WiFi móbil desde dispositivos IoT
+
+    Comprender a necesidade de comprobar a conexión e reconexionar en caso necesario
+
+    Instalar e usar as librerías necesarias
+
+    Empregar comunicacións serie para obter informacións da placa esp8266
+
+Descrición:
+
+Revisa o video explicativo e segue os pasos indicados para: (a) crear unha rede WiFi no teu móbil, (b) identificar os parámetros de conexión, (c) crear un script que se conecte á rede móbil, (d) proporcionar indicacións do estado da conexión empregando o monitor serie e (e) conectar e programar un LED que indica o estado da conexión (conectado ou non conectado) do esp8266 á WiFi.
+
+Nesta práctica non é preciso preocuparse da reactividade do script. Pódese pór esperas (delay) con tempos amplos (máximo 3 s).
+
+
+DAVID OTERO ELIA
+
+
+*/
+
+
+
 #include <ESP8266WiFi.h>
 
 //Wifi móbil
