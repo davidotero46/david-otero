@@ -21,7 +21,7 @@ Comunicar o móbil co servidor MQTT e outros dispositivos
   */
 #include <ESP8266WiFi.h>
 
-*//Wifi móbil
+
 #define MAX_INTENTOS 50
 #define WIFI_SSID "ssd"
 #define WIFI_PASS "pass"
