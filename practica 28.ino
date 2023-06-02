@@ -26,6 +26,11 @@ Descrición:
 Revisa o video explicativo e segue os pasos indicados para: (a) completar o script da práctica 26 para engadir conectividade MQTT, (b) engadir as bibiliotecas necesarias, (c) codificar as funcións necesarias para o correcto funcionamento da conexión MQTT, (d) engadir o código necesario no loop() para que o servo funcione, (e) conectar o servo ao esp8266 para accionamento, (f) modificar o dashboard para poder interactuar co servo.
 
 Realiza pequenos videos explicando coa túa voz cada un dos apartados anteriores.
+
+david andres otero elia
+
+
+
 */
 
 #include <ESP8266WiFi.h>
