@@ -93,7 +93,8 @@ bool conectarWiFi() {
   // Informa do estado da conexion e IP en caso de éxito
   if(contador < MAX_INTENTOS) {
     conectado = true;
-    Serial.print("Conectado á WiFi coa IP: "); Serial.println(WiFi.localIP());
+    Serial.print("Conectado á WiFi coa IP: ");
+    Serial.println(WiFi.localIP());
   }
   else{
     Serial.println("Non se puido conectar á WiFi");
@@ -103,7 +104,8 @@ bool conectarWiFi() {
 }
 
 void callback(String topic, byte* message, unsigned int len) {
-  Serial.print("Nova mensaxe no topic: "); Serial.print(topic);
+  Serial.print("Nova mensaxe no topic: ");
+  Serial.print(topic);
   Serial.print(". Mensaxe: ");
   String mensaxeTmp = "";
   for(int i=0; i < len; i++) {
@@ -121,7 +123,7 @@ void reconnect() {
   while(!espClient.connected()) {
     Serial.print("Tentando conectar ao servidor MQTT...");
     if(mqttClient.conectet(MQTT_NOME_CLIENTE)) {
-      Serial.println(" Conectado"); //continuar en minuto 43:56    }
+      Serial.println(" Conectado");
   }
 }
 
